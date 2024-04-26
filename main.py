@@ -13,7 +13,7 @@
 import math
 import typing
 moves = []
-snakename = "Zeonim"
+snakename = "Zeothesnek"
 def info() -> typing.Dict:
     print("INFO")
 
@@ -121,8 +121,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     for snake in game_state["board"]["snakes"]:
       if snake["name"] == snakename:
         head = snake["head"]
-        body = snake["body"]
-        length = len(body)
+        length = len(snake["body"])
       
 
     for snake in game_state["board"]["snakes"]:
