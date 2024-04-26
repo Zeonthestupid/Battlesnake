@@ -13,7 +13,7 @@
 import math
 import typing
 moves = []
-snakename = "Zeothesnek"
+snakename = "zeothesnek"
 def info() -> typing.Dict:
     print("INFO")
 
