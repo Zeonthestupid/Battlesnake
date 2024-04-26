@@ -127,7 +127,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     for snake in game_state["board"]["snakes"]:
       if snake["name"] != snakename:
-        opplength = len(body)
+        opplength = length
     
     for snake in game_state["board"]["snakes"]:
       if snake["name"] == snakename:
