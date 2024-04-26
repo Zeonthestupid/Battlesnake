@@ -13,7 +13,6 @@
 import math
 import typing
 moves = []
-snakename = "zeothesnek"
 def info() -> typing.Dict:
     print("INFO")
 
@@ -30,7 +29,10 @@ def info() -> typing.Dict:
 def start(game_state: typing.Dict):
     print("GAME START")
     print(game_state)
+    print("-------------------------------------")
+    print (game_state["you"])
     
+
 
 
 def checkboundries(x, y, matrix):
@@ -72,14 +74,15 @@ def end(game_state: typing.Dict):
     for names in game_state['board']['snakes']:
       print (names['name'])
 def snakematrix(matrix, game_state, snake_weight):
+  snakeid = game_state["you"]["id"]
   snake_weight = snake_weight * 3
   for snake in game_state["board"]["snakes"]:
-    if snake['name'] == snakename:
+    if snake['id'] == snakeid:
       snakelength = len(snake['body'])
       for body in snake['body']:
         decaytiles(body["x"], body['y'], 500, matrix, game_state)
   for snake in game_state["board"]["snakes"]:
-    if snake['name'] != snakename:
+    if snake['id'] != snakeid:
       body = snake["body"][0]
       if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
         matrix[body["x"]][body["y"]] += -5000 
@@ -113,23 +116,24 @@ def centermatrix (matrix, game_state, snake_weight):
 
 
 def move(game_state: typing.Dict) -> typing.Dict:
+    snakeid = game_state["you"]["id"]
     snakeweight = 0
     opplength = 0
     sizeY = game_state["board"]["height"]
     sizeX = game_state["board"]["width"]
     matrix = [[0 for _ in range(sizeY)] for _ in range(sizeX)]
     for snake in game_state["board"]["snakes"]:
-      if snake["name"] == snakename:
+      if snake["id"] == snakeid:
         head = snake["head"]
         length = len(snake["body"])
-      
+
 
     for snake in game_state["board"]["snakes"]:
-      if snake["name"] != snakename:
+      if snake["id"] != snakeid:
         opplength = length
-    
+
     for snake in game_state["board"]["snakes"]:
-      if snake["name"] == snakename:
+      if snake["id"] == snakeid:
         health = snake["health"]
         if health < 50:
           snakeweight = -100 * (1/health)
@@ -137,21 +141,21 @@ def move(game_state: typing.Dict) -> typing.Dict:
           snakeweight = -3
     if opplength > 10:
       snakeweight = snakeweight * 2
-    
+
     snakematrix(matrix, game_state, snakeweight)
     for snakes in game_state["board"]["snakes"]:
-      if snakes["name"] == snakename:
+      if snakes["id"] == snakeid:
         snakelength = len(snakes["body"])
     for snakes in game_state["board"]["snakes"]:
-      if snakes["name"] != snakename:
+      if snakes["id"] != snakeid:
         if len(snakes["body"]) > snakelength:
           snakeweight = snakeweight * 20
         elif len(snakes["body"]) == snakelength:
           snakeweight = snakeweight * 80
-        
+
     foodmatrix(matrix, game_state, snakeweight)
     centermatrix(matrix, game_state, snakeweight)
-  
+
   # for some odd reason its called snake weight
     printmatrix(matrix)
     minimumval = 100000
@@ -175,6 +179,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     print(best_move)
     return {"move": best_move}
+    
 
 
 
