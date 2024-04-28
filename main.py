@@ -56,7 +56,6 @@ def decaytiles(coord_x, coord_y, start_value, matrix, game_state):
 
 def printmatrix(matrix):
   size_x = len(matrix)
-  print (size_x)
   print("---------------------")
   for rows in reversed(range(len(matrix))):
     currentrow = []
@@ -68,9 +67,6 @@ def printmatrix(matrix):
   print("---------------------")
 def end(game_state: typing.Dict):
     print("GAME OVER\n")
-    print(moves)
-    for names in game_state['board']['snakes']:
-      print (names['name'])
 def snakematrix(matrix, game_state, snake_weight):
   snakeid = game_state["you"]["id"]
   snake_weight = snake_weight * 3
