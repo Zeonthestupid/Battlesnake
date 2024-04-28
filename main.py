@@ -44,8 +44,6 @@ def checkboundries(x, y, matrix):
 def decaytiles(coord_x, coord_y, start_value, matrix, game_state):
   size_x = game_state["board"]["height"]
   size_y = game_state["board"]["width"]
-  print(coord_y)
-  print(coord_x)
   for x in range(size_x):
     for y in range(size_y):
       distance = abs(x - coord_x) + abs(y - coord_y)
@@ -80,24 +78,24 @@ def snakematrix(matrix, game_state, snake_weight):
     if snake['id'] == snakeid:
       snakelength = len(snake['body'])
       for body in snake['body']:
-        decaytiles(body["x"], body['y'], 500, matrix, game_state)
+        decaytiles(body["x"], body['y'], 50, matrix, game_state)
   for snake in game_state["board"]["snakes"]:
     if snake['id'] != snakeid:
       body = snake["body"][0]
       if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
-        matrix[body["x"]][body["y"]] += -5000 
-        decaytiles(body["x"], body["y"], -1000, matrix, game_state)
+        matrix[body["x"]][body["y"]] += -500
+        decaytiles(body["x"], body["y"], -100, matrix, game_state)
       elif len(snake["body"]) == snakelength:
-        matrix[body["x"]][body["y"]] += 10000
-        decaytiles(body["x"], body["y"], 5000, matrix, game_state)
+        matrix[body["x"]][body["y"]] += 1000
+        decaytiles(body["x"], body["y"], 500, matrix, game_state)
       else:
-        matrix[body["x"]][body["y"]] += 10000 # When their snake is >= mine
-        decaytiles(body["x"], body["y"], 5000, matrix, game_state)
+        matrix[body["x"]][body["y"]] += 1000 # When their snake is >= mine
+        decaytiles(body["x"], body["y"], 1000, matrix, game_state)
     else: # Head of snakes
       body = snake["body"][0]
-      matrix[body["x"]][body["y"]] += 500
+      matrix[body["x"]][body["y"]] += 50
     for body in snake['body']: # Body of every snake
-      matrix[body["x"]][body["y"]] += 50000
+      matrix[body["x"]][body["y"]] += 5000
       # decaytiles(body["x"], body["y"], 50, matrix, game_state)
 
 
@@ -106,12 +104,11 @@ def foodmatrix(matrix, game_state, snake_weight):
   for food in game_state["board"]["food"]:
     decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
 
-
 def centermatrix (matrix, game_state, snake_weight):
-    decaytiles(0, 0, 1000, matrix, game_state)
-    decaytiles(10, 0, 1000, matrix, game_state)
-    decaytiles(0, 10, 1000, matrix, game_state)
-    decaytiles(10, 10, 1000, matrix, game_state)
+    decaytiles(0, 0, 10, matrix, game_state)
+    decaytiles(10, 0, 10, matrix, game_state)
+    decaytiles(0, 10, 10, matrix, game_state)
+    decaytiles(10, 10, 10, matrix, game_state)
 
 
 
@@ -141,7 +138,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
           snakeweight = -3
     if opplength > 10:
       snakeweight = snakeweight * 2
-
     snakematrix(matrix, game_state, snakeweight)
     for snakes in game_state["board"]["snakes"]:
       if snakes["id"] == snakeid:
@@ -155,8 +151,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     foodmatrix(matrix, game_state, snakeweight)
     centermatrix(matrix, game_state, snakeweight)
-
-  # for some odd reason its called snake weight
     printmatrix(matrix)
     minimumval = 100000
 
