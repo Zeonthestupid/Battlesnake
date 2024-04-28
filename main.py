@@ -94,7 +94,7 @@ def snakematrix(matrix, game_state, snake_weight):
       matrix[body["x"]][body["y"]] += 5000
       # decaytiles(body["x"], body["y"], 50, matrix, game_state)
 
-
+        
 def foodmatrix(matrix, game_state, snake_weight):
     snakeid = game_state["you"]["id"]
     snake_weight = snake_weight * 1
