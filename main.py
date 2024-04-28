@@ -96,10 +96,16 @@ def snakematrix(matrix, game_state, snake_weight):
 
 
 def foodmatrix(matrix, game_state, snake_weight):
-  snake_weight = snake_weight * 10
-  for food in game_state["board"]["food"]:
-    decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
-
+    snake_weight = snake_weight * 1
+    for snake in game_state["board"]["snakes"]:
+        if snake['id'] == snakeid:
+          snakelength = len(snake['body'])
+    for snake in game_state["board"]["snakes"]:
+        if snake['id'] != snakeid:
+          if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
+              decaytiles(body["x"], body["y"], -10, matrix, game_state)
+          else:
+              decaytiles(body["x"], body["y"], snake_weight, matrix, game_state)
 
 
 def move(game_state: typing.Dict) -> typing.Dict:
