@@ -104,12 +104,6 @@ def foodmatrix(matrix, game_state, snake_weight):
   for food in game_state["board"]["food"]:
     decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
 
-def centermatrix (matrix, game_state, snake_weight):
-    decaytiles(0, 0, 10, matrix, game_state)
-    decaytiles(10, 0, 10, matrix, game_state)
-    decaytiles(0, 10, 10, matrix, game_state)
-    decaytiles(10, 10, 10, matrix, game_state)
-
 
 
 def move(game_state: typing.Dict) -> typing.Dict:
@@ -150,7 +144,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
           snakeweight = snakeweight * 80
 
     foodmatrix(matrix, game_state, snakeweight)
-    centermatrix(matrix, game_state, snakeweight)
     printmatrix(matrix)
     minimumval = 100000
 
