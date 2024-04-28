@@ -96,6 +96,7 @@ def snakematrix(matrix, game_state, snake_weight):
 
 
 def foodmatrix(matrix, game_state, snake_weight):
+    snakeid = game_state["you"]["id"]
     snake_weight = snake_weight * 1
     for snake in game_state["board"]["snakes"]:
         if snake['id'] == snakeid:
