@@ -123,7 +123,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
       if snake["id"] == snakeid:
         health = snake["health"]
         if health < 50:
-          snakeweight = -100 * (1/health)
+          snakeweight = -10 * (1/health)
         else: 
           snakeweight = -3
     if opplength > 10:
