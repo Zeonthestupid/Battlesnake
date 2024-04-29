@@ -126,13 +126,13 @@ def foodmatrix(matrix, game_state, snake_weight):
     for food in game_state["board"]["food"]:
       for snakes in game_state["board"]["snakes"]:
         if snakes['id'] != snakeid:
-          if food["x"] == snakes["body"][0]["x"] - 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] + 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] + 1 or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] - 1:
-            decaytiles(food["x"], food["y"], 2000, matrix, game_state)
-          else:
-            if len(snake["body"]) < snakelength:
-                decaytiles(food["x"], food["y"], -100, matrix, game_state)
+          if len(snake["body"]) >= snakelength:
+            if food["x"] == snakes["body"][0]["x"] - 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] + 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] + 1 or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] - 1:
+              decaytiles(food["x"], food["y"], 2000, matrix, game_state)
             else:
-                decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
+              decaytiles(food["x"], food["y"], -1000, matrix, game_state)
+          elif len(snake["body"]) < snakelength:
+              decaytiles(food["x"], food["y"], -100, matrix, game_state)
 
 def move(game_state: typing.Dict) -> typing.Dict:
     snakeid = game_state["you"]["id"]
