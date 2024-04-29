@@ -68,9 +68,9 @@ def snakematrix(matrix, game_state, snake_weight):
   for snake in game_state["board"]["snakes"]:
     if snake['id'] == snakeid:
       snakelength = len(snake['body'])
+      matrix[snake["body"][-1]["x"]][snake["body"][-1]["y"]] += -500
       for body in snake['body']:
         decaytiles(body["x"], body['y'], 50, matrix, game_state)
-      snake["body"][-1] += -500
   for snake in game_state["board"]["snakes"]:
     if snake['id'] != snakeid:
       body = snake["body"][0]
