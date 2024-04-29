@@ -115,7 +115,19 @@ def lookingdirection(matrix, game_state, snake_weight, decval):
 #               |
 # 0  -------  
 #             -----
-
+def hazmatrix(matrix, game_state, snake_weight):
+  for snake in game_state["board"]["snakes"]:
+    if snake["id"] == game_state["you"]["id"]:
+      health = snake['health']
+  for haz in game_state["board"]['hazards']:
+    if health > 70:
+      matrix[haz["x"]][haz["y"]] += 20
+    elif health < 70 and health > 50:
+      matrix[haz["x"]][haz["y"]] += 100
+    elif health < 50 and health > 20:
+      matrix[haz["x"]][haz["y"]] += 400
+    else:
+      matrix[haz["x"]][haz["y"]] += 20000
 
 def foodmatrix(matrix, game_state, snake_weight):
     snakeid = game_state["you"]["id"]
@@ -174,6 +186,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     foodmatrix(matrix, game_state, snakeweight)
     printmatrix(matrix)
+    hazmatrix(matrix, game_state, snakeweight)
     minimumval = 100000
 
     if checkboundries(head["x"] + 1, head["y"], matrix) == True:
