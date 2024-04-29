@@ -1,14 +1,16 @@
+
 # __________         __    __  .__                               __
 # \______   \_____ _/  |__/  |_|  |   ____   ______ ____ _____  |  | __ ____
 #  |    |  _/\__  \\   __\   __\  | _/ __ \ /  ___//    \\__  \ |  |/ // __ \
 #  |    |   \ / __ \|  |  |  | |  |_\  ___/ \___ \|   |  \/ __ \|    <\  ___/
 #  |________/(______/__|  |__| |____/\_____>______>___|__(______/__|__\\_____>
 #
-# ________  ________  ________  ________  ________  ______________
-#   /    /  |   |     |      |  /      \    |  |    |  |   | |
-#  /    /   |   ----  |      | /   /\\   \  |  |    | | | |  |
-# /    /    |   |     |      ||   |  |   |  |  |   | |   |  | |
-# ------    |-------  |      ||---|  |---|  |  |  | |        | |
+# __________                  .__         
+# \____    /____  ____   ____ |__| _____  
+#   /     // __ \/  _ \ /    \|  |/     \ 
+#  /     /\  ___(  <_> )   |  \  |  Y Y  \
+# /_______ \___  >____/|___|  /__|__|_|  /
+#         \/   \/           \/         \/ 
 
 import math
 import typing
@@ -31,7 +33,7 @@ def start(game_state: typing.Dict):
     print(game_state)
     print("-------------------------------------")
     print (game_state["you"])
-    
+
 
 
 
@@ -92,23 +94,44 @@ def snakematrix(matrix, game_state, snake_weight):
       matrix[body["x"]][body["y"]] += 50
     for body in snake['body']: # Body of every snake
       matrix[body["x"]][body["y"]] += 5000
-      # decaytiles(body["x"], body["y"], 50, matrix, game_state)
+      if snakeid != snake["id"]:
+        decaytiles(body["x"], body["y"], 10, matrix, game_state)
+          
 
+def lookingdirection(matrix, game_state, snake_weight):
+  for snake in game_state["board"]["snakes"]:
+    if snake['id'] != game_state["you"]["id"]:
+      if snake["body"][0]["x"] == snake["body"][1]["x"] + 1:
+        if checkboundries(snake["body"][0]["x"] + 1, snake["body"][0]["y"], matrix) == True:
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+      if snake["body"][0]["x"] == snake["body"][1]["x"] - 1:
+        if checkboundries(snake["body"][0]["x"] - 1, snake["body"][0]["y"], matrix) == True:
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+      if snake["body"][0]["y"] == snake["body"][1]["y"] - 1:
+        if checkboundries(snake["body"][0]["x"], snake["body"][0]["y"] + 1, matrix) == True:
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+      if snake["body"][0]["y"] == snake["body"][1]["y"] - 1:
+        if checkboundries(snake["body"][0]["x"], snake["body"][0]["y"] - 1, matrix) == True:
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+    
         
 def foodmatrix(matrix, game_state, snake_weight):
     snakeid = game_state["you"]["id"]
     snake_weight = snake_weight * 1
-     
     for snake in game_state["board"]["snakes"]:
         if snake['id'] == snakeid:
           snakelength = len(snake['body'])
+
     for food in game_state["board"]["food"]:
-    
-        if snake['id'] != snakeid:
-          if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
-              decaytiles(food["x"], food["y"], -10, matrix, game_state)
+      for snakes in game_state["board"]["snakes"]:
+        if snakes['id'] != snakeid:
+          if food["x"] == snakes["body"][0]["x"] - 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] + 1 and food["y"] == snakes["body"][0]["y"] or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] + 1 or food["x"] == snakes["body"][0]["x"] and food["y"] == snakes["body"][0]["y"] - 1:
+            decaytiles(food["x"], food["y"], 2000, matrix, game_state)
           else:
-              decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
+            if len(snake["body"]) < snakelength:
+                decaytiles(food["x"], food["y"], -100, matrix, game_state)
+            else:
+                decaytiles(food["x"], food["y"], snake_weight, matrix, game_state)
 
 def move(game_state: typing.Dict) -> typing.Dict:
     snakeid = game_state["you"]["id"]
@@ -137,6 +160,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     if opplength > 10:
       snakeweight = snakeweight * 2
     snakematrix(matrix, game_state, snakeweight)
+    lookingdirection(matrix, game_state, snakeid)
     for snakes in game_state["board"]["snakes"]:
       if snakes["id"] == snakeid:
         snakelength = len(snakes["body"])
@@ -170,7 +194,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     print(best_move)
     return {"move": best_move}
-    
+
 
 
 
