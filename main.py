@@ -74,8 +74,8 @@ def snakematrix(matrix, game_state, snake_weight):
     if snake['id'] != snakeid:
       body = snake["body"][0]
       if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
-        matrix[body["x"]][body["y"]] += -500
-        decaytiles(body["x"], body["y"], -100, matrix, game_state)
+        matrix[body["x"]][body["y"]] += -5000
+        decaytiles(body["x"], body["y"], -1000, matrix, game_state)
         lookingdirection(matrix, game_state, snakeid, -500)
       elif len(snake["body"]) == snakelength:
         matrix[body["x"]][body["y"]] += 1000
