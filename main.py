@@ -23,7 +23,7 @@ def info() -> typing.Dict:
         "author": "Zeonim",  # TODO: Your Battlesnake Username
         "color": "#FFAAFF",  # TODO: Choose color
         "head": "replit-mark",  # TODO: Choose head
-        "tail": "replit-notmark",  # TODO: Choose tail
+        "tail": "round-bum",  # TODO: Choose tail
     }
 
 
