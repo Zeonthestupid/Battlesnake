@@ -1,17 +1,3 @@
-
-# __________         __    __  .__                               __
-# \______   \_____ _/  |__/  |_|  |   ____   ______ ____ _____  |  | __ ____
-#  |    |  _/\__  \\   __\   __\  | _/ __ \ /  ___//    \\__  \ |  |/ // __ \
-#  |    |   \ / __ \|  |  |  | |  |_\  ___/ \___ \|   |  \/ __ \|    <\  ___/
-#  |________/(______/__|  |__| |____/\_____>______>___|__(______/__|__\\_____>
-#
-# __________                  .__         
-# \____    /____  ____   ____ |__| _____  
-#   /     // __ \/  _ \ /    \|  |/     \ 
-#  /     /\  ___(  <_> )   |  \  |  Y Y  \
-# /_______ \___  >____/|___|  /__|__|_|  /
-#         \/   \/           \/         \/ 
-
 import math
 import typing
 moves = []
@@ -23,7 +9,7 @@ def info() -> typing.Dict:
         "author": "Zeonim",  # TODO: Your Battlesnake Username
         "color": "#FFAAFF",  # TODO: Choose color
         "head": "replit-mark",  # TODO: Choose head
-        "tail": "round-bum",  # TODO: Choose tail
+        "tail": "replit-notmark",  # TODO: Choose tail
     }
 
 
@@ -83,12 +69,15 @@ def snakematrix(matrix, game_state, snake_weight):
       if len(snake["body"]) < snakelength: # if their snake is smaller than my snake
         matrix[body["x"]][body["y"]] += -500
         decaytiles(body["x"], body["y"], -100, matrix, game_state)
+        lookingdirection(matrix, game_state, snakeid, -500)
       elif len(snake["body"]) == snakelength:
         matrix[body["x"]][body["y"]] += 1000
         decaytiles(body["x"], body["y"], 500, matrix, game_state)
+        lookingdirection(matrix, game_state, snakeid, 200)
       else:
         matrix[body["x"]][body["y"]] += 1000 # When their snake is >= mine
         decaytiles(body["x"], body["y"], 1000, matrix, game_state)
+        lookingdirection(matrix, game_state, snakeid, 200)
     else: # Head of snakes
       body = snake["body"][0]
       matrix[body["x"]][body["y"]] += 50
@@ -96,25 +85,30 @@ def snakematrix(matrix, game_state, snake_weight):
       matrix[body["x"]][body["y"]] += 5000
       if snakeid != snake["id"]:
         decaytiles(body["x"], body["y"], 10, matrix, game_state)
-          
 
-def lookingdirection(matrix, game_state, snake_weight):
+
+def lookingdirection(matrix, game_state, snake_weight, decval):
   for snake in game_state["board"]["snakes"]:
     if snake['id'] != game_state["you"]["id"]:
       if snake["body"][0]["x"] == snake["body"][1]["x"] + 1:
         if checkboundries(snake["body"][0]["x"] + 1, snake["body"][0]["y"], matrix) == True:
-          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += decval
       if snake["body"][0]["x"] == snake["body"][1]["x"] - 1:
         if checkboundries(snake["body"][0]["x"] - 1, snake["body"][0]["y"], matrix) == True:
-          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
-      if snake["body"][0]["y"] == snake["body"][1]["y"] - 1:
-        if checkboundries(snake["body"][0]["x"], snake["body"][0]["y"] + 1, matrix) == True:
-          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
+          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += decval
       if snake["body"][0]["y"] == snake["body"][1]["y"] - 1:
         if checkboundries(snake["body"][0]["x"], snake["body"][0]["y"] - 1, matrix) == True:
-          matrix[snake["body"][0]["x"] + 1][snake["body"][0]["y"]] += 200
-    
-        
+          matrix[snake["body"][0]["x"]][snake["body"][0]["y"] - 1] += decval
+      if snake["body"][0]["y"] == snake["body"][1]["y"] + 1:
+        if checkboundries(snake["body"][0]["x"], snake["body"][0]["y"] + 1, matrix) == True:
+          matrix[snake["body"][0]["x"]][snake["body"][0]["y"] + 1] += decval
+#    ||---------|
+#    ||         |
+#               |
+# 0  -------  
+#             -----
+
+
 def foodmatrix(matrix, game_state, snake_weight):
     snakeid = game_state["you"]["id"]
     snake_weight = snake_weight * 1
@@ -160,7 +154,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
     if opplength > 10:
       snakeweight = snakeweight * 2
     snakematrix(matrix, game_state, snakeweight)
-    lookingdirection(matrix, game_state, snakeid)
     for snakes in game_state["board"]["snakes"]:
       if snakes["id"] == snakeid:
         snakelength = len(snakes["body"])
