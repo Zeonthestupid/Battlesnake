@@ -30,7 +30,7 @@ def start(game_state: typing.Dict):
 
 
 
-def checkboundries(x, y, matrix):
+def checkboundries(x, y, matrix): #Check if it is out of bounds -> Prevents out or rng error
   if x >= 0 and x <= 10 and y >= 0 and y <= 10:
     return True
   else:
@@ -62,6 +62,11 @@ def printmatrix(matrix):
   print("---------------------")
 def end(game_state: typing.Dict):
     print("GAME OVER\n")
+    for snakes in game_state["board"]["snakes"]:
+      if snakes["id"] == game_state["you"]["id"]:
+        print("WIN")
+      else:
+        print("LOSE")
 def snakematrix(matrix, game_state, snake_weight):
   snakeid = game_state["you"]["id"]
   snake_weight = snake_weight * 3
@@ -123,7 +128,7 @@ def hazmatrix(matrix, game_state, snake_weight):
     if health > 70:
       matrix[haz["x"]][haz["y"]] += 20
     elif health < 70 and health > 50:
-      matrix[haz["x"]][haz["y"]] += 100
+      matrix[haz["x"]][haz["y"]] += 200
     elif health < 50 and health > 20:
       matrix[haz["x"]][haz["y"]] += 400
     else:
@@ -188,7 +193,7 @@ def move(game_state: typing.Dict) -> typing.Dict:
     printmatrix(matrix)
     hazmatrix(matrix, game_state, snakeweight)
     minimumval = 100000
-
+    # Movement checking -> Find best move
     if checkboundries(head["x"] + 1, head["y"], matrix) == True:
       if (matrix[head["x"] + 1][head["y"]]) < minimumval:
         best_move = "right"
