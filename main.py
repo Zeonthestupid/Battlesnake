@@ -81,11 +81,11 @@ def snakematrix(matrix, game_state, snake_weight):
       elif len(snake["body"]) == snakelength:
         matrix[body["x"]][body["y"]] += 1000
         decaytiles(body["x"], body["y"], 500, matrix, game_state)
-        lookingdirection(matrix, game_state, snakeid, 200)
+        lookingdirection(matrix, game_state, snakeid, 400)
       else:
         matrix[body["x"]][body["y"]] += 1000 # When their snake is >= mine
         decaytiles(body["x"], body["y"], 1000, matrix, game_state)
-        lookingdirection(matrix, game_state, snakeid, 200)
+        lookingdirection(matrix, game_state, snakeid, 400)
     else: # Head of snakes
       body = snake["body"][0]
       matrix[body["x"]][body["y"]] += 50
