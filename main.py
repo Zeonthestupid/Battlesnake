@@ -14,9 +14,9 @@ def info() -> typing.Dict:
     return {
         "apiversion": "1",
         "author": "Zeonim",  # TODO: Your Battlesnake Username
-        "color": "#FFAAFF",  # TODO: Choose color
-        "head": "replit-mark",  # TODO: Choose head
-        "tail": "replit-notmark",  # TODO: Choose tail
+        "color": "#FF22DA",  # TODO: Choose color
+        "head": "snail",  # TODO: Choose head
+        "tail": "mystic-moon",  # TODO: Choose tail
     }
 
 
@@ -67,6 +67,10 @@ def end(game_state: typing.Dict):
         print("WIN")
       else:
         print("LOSE")
+
+  
+
+
 def snakematrix(matrix, game_state, snake_weight):
   snakeid = game_state["you"]["id"]
   snake_weight = snake_weight * 3
@@ -74,6 +78,7 @@ def snakematrix(matrix, game_state, snake_weight):
     if snake['id'] == snakeid:
       snakelength = len(snake['body'])
       matrix[snake["body"][-1]["x"]][snake["body"][-1]["y"]] += -500
+      matrix[snake["body"][-2]["x"]][snake["body"][-2]["y"]] += -500
       for body in snake['body']:
         decaytiles(body["x"], body['y'], 50, matrix, game_state)
   for snake in game_state["board"]["snakes"]:
@@ -213,10 +218,6 @@ def move(game_state: typing.Dict) -> typing.Dict:
 
     print(best_move)
     return {"move": best_move}
-
-
-
-
 # Start server when `python main.py` is run
 if __name__ == "__main__":
   from server import run_server
