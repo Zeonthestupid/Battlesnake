@@ -68,7 +68,7 @@ def end(game_state: typing.Dict):
       else:
         print("LOSE")
 
-  
+
 
 
 def snakematrix(matrix, game_state, snake_weight):
@@ -78,7 +78,6 @@ def snakematrix(matrix, game_state, snake_weight):
     if snake['id'] == snakeid:
       snakelength = len(snake['body'])
       matrix[snake["body"][-1]["x"]][snake["body"][-1]["y"]] += -500
-      matrix[snake["body"][-2]["x"]][snake["body"][-2]["y"]] += -500
       for body in snake['body']:
         decaytiles(body["x"], body['y'], 50, matrix, game_state)
   for snake in game_state["board"]["snakes"]:
